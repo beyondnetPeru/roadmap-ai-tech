@@ -1,0 +1,36 @@
+{
+  "name": "handson-1",
+  "version": "1.0.0",
+  "description": "Phase 1 hands-on for structured outputs and function calling with Gemini + Zod.",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "exercise:1": "ts-node src/exercise-1-structured-output.ts",
+    "exercise:2": "ts-node src/exercise-2-function-calling.ts",
+    "exercise:3": "ts-node src/exercise-3-vercel-ai-sdk.ts"
+  },
+  "keywords": [
+    "ai",
+    "gemini",
+    "zod",
+    "structured-output",
+    "function-calling"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@ai-sdk/google": "^3.0.60",
+    "@google/generative-ai": "^0.24.1",
+    "ai": "^6.0.152",
+    "dotenv": "^17.4.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
+  }
+}
