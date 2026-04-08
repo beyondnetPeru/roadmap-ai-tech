@@ -1,8 +1,22 @@
+/**
+ * Exercise 1 — Structured Output with Gemini + Zod
+ *
+ * Goal:
+ * Force the model to return valid JSON that matches a strict schema.
+ *
+ * What this demonstrates:
+ * 1. Define the expected shape with Zod.
+ * 2. Configure Gemini to answer in JSON mode.
+ * 3. Validate the response before using it in application code.
+ *
+ * Run with: npm run exercise:1
+ */
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 import { z } from "zod";
 
 import { getGeminiApiKey } from "./utils/env";
 
+// 1) The Zod schema is the single source of truth for runtime validation and TS types.
 const ProductAnalysisSchema = z.object({
   productName: z.string().describe("Name of the product analyzed"),
   sentiment: z.enum(["positive", "negative", "neutral"]),
@@ -18,6 +32,7 @@ type ProductAnalysis = z.infer<typeof ProductAnalysisSchema>;
 
 const genAI = new GoogleGenerativeAI(getGeminiApiKey());
 
+// 2) Configure Gemini to emit JSON that conforms to the schema above.
 const model = genAI.getGenerativeModel({
   model: "gemini-2.0-flash",
   generationConfig: {
@@ -54,6 +69,9 @@ const model = genAI.getGenerativeModel({
   },
 });
 
+/**
+ * Sends a product review to Gemini and validates the JSON response with Zod.
+ */
 async function analyzeProduct(review: string): Promise<ProductAnalysis> {
   const result = await model.generateContent(
     `Analyze this product review and extract structured data. Return exactly 3 key features.\n\nReview: "${review}"`,
@@ -63,6 +81,9 @@ async function analyzeProduct(review: string): Promise<ProductAnalysis> {
   return ProductAnalysisSchema.parse(rawJson);
 }
 
+/**
+ * Small runnable demo using a realistic headphone review.
+ */
 async function main() {
   const review =
     "The Sony WH-1000XM5 headphones have incredible noise cancellation, " +

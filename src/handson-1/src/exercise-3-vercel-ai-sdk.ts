@@ -1,29 +1,50 @@
+/**
+ * Exercise 3 — Provider-Agnostic Version with the Vercel AI SDK
+ *
+ * Goal:
+ * Recreate the same concepts from Exercises 1 and 2 using a unified SDK.
+ *
+ * What this demonstrates:
+ * - `generateText()` + `Output.object()` for typed structured outputs
+ * - `generateText()` + `tool()` for tool calling
+ * - a provider-agnostic API that can be swapped later
+ *
+ * Run with: npm run exercise:3
+ */
 import { google } from "@ai-sdk/google";
-import { generateObject, generateText, stepCountIs, tool } from "ai";
+import { generateText, Output, stepCountIs, tool } from "ai";
 import { z } from "zod";
 
 import { getGeminiApiKey } from "./utils/env";
 
+/**
+ * Structured output example using `generateText` + `Output.object`.
+ */
 async function structuredOutput() {
   getGeminiApiKey();
 
-  const { object } = await generateObject({
+  const { output } = await generateText({
     model: google("gemini-2.0-flash"),
-    schema: z.object({
-      productName: z.string(),
-      sentiment: z.enum(["positive", "negative", "neutral"]),
-      confidence: z.number().min(0).max(1),
-      keyFeatures: z.array(z.string()).max(3),
-      recommendation: z.enum(["buy", "skip", "wait_for_sale"]),
+    output: Output.object({
+      schema: z.object({
+        productName: z.string(),
+        sentiment: z.enum(["positive", "negative", "neutral"]),
+        confidence: z.number().min(0).max(1),
+        keyFeatures: z.array(z.string()).max(3),
+        recommendation: z.enum(["buy", "skip", "wait_for_sale"]),
+      }),
     }),
     prompt:
       'Analyze: "The MacBook Air M3 is blazing fast, incredibly thin, and has all-day battery. Best laptop under $1200."',
   });
 
-  console.log("✅ Structured output:", object);
-  console.log(`   Recommendation: ${object.recommendation}`);
+  console.log("✅ Structured output:", output);
+  console.log(`   Recommendation: ${output.recommendation}`);
 }
 
+/**
+ * Tool-calling example using the Vercel AI SDK.
+ */
 async function functionCalling() {
   getGeminiApiKey();
 
@@ -52,6 +73,9 @@ async function functionCalling() {
   console.log("🤖 Response:", result.text);
 }
 
+/**
+ * Runs both examples sequentially so you can compare their output.
+ */
 async function main() {
   await structuredOutput();
   await functionCalling();

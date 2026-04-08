@@ -1,3 +1,17 @@
+/**
+ * Exercise 2 — Function Calling with Gemini Tools
+ *
+ * Goal:
+ * Let the model decide when to call backend functions such as
+ * `checkInventory` and `createOrder`.
+ *
+ * What this demonstrates:
+ * 1. Expose function signatures to the model.
+ * 2. Let Gemini request one or more tool calls.
+ * 3. Execute those calls in your code and return the results.
+ *
+ * Run with: npm run exercise:2
+ */
 import {
   GoogleGenerativeAI,
   SchemaType,
@@ -13,6 +27,7 @@ type InventoryItem = {
   warehouse: string;
 };
 
+// Simulated backend data source.
 const inventoryDatabase: Record<string, InventoryItem> = {
   "SKU-001": { stock: 150, price: 29.99, warehouse: "US-West" },
   "SKU-002": { stock: 0, price: 49.99, warehouse: "EU-Central" },
@@ -50,6 +65,7 @@ function createOrder(skuId: string, quantity: number) {
   };
 }
 
+// Tool declarations are the only part visible to the model.
 const functionDeclarations: FunctionDeclaration[] = [
   {
     name: "checkInventory",
@@ -105,12 +121,16 @@ const model = genAI.getGenerativeModel({
   tools,
 });
 
+/**
+ * Runs the Gemini tool loop until the model stops requesting function calls.
+ */
 async function handleUserQuery(query: string) {
   console.log(`\n🧑 User: ${query}`);
 
   const chat = model.startChat();
   let response = await chat.sendMessage(query);
 
+  // Keep looping until Gemini stops asking to use tools.
   while (true) {
     const functionCalls = response.response.functionCalls() ?? [];
 

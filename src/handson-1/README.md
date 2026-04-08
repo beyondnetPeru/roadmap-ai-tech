@@ -47,6 +47,26 @@ npm run exercise:2
 npm run exercise:3
 ```
 
+## Exercise guide
+
+### `exercise-1-structured-output.ts`
+
+- Shows how to force Gemini to return a strict JSON object.
+- Uses `zod` to validate the response before it reaches application logic.
+- Best for learning **deterministic AI outputs**.
+
+### `exercise-2-function-calling.ts`
+
+- Demonstrates Gemini tool calling with a small inventory/order workflow.
+- The model decides when to call `checkInventory` and `createOrder`.
+- Best for learning **backend orchestration with LLMs**.
+
+### `exercise-3-vercel-ai-sdk.ts`
+
+- Reimplements the same ideas using the Vercel AI SDK.
+- Useful if you want a more provider-agnostic abstraction.
+- Best for learning **portable AI integration patterns**.
+
 ## Validation
 
 ```bash
