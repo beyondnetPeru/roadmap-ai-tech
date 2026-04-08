@@ -1,0 +1,30 @@
+{
+  "recommendations": [
+    "github.copilot-chat",
+    "google.geminicodeassist",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "editorconfig.editorconfig",
+    "mikestead.dotenv",
+    "redhat.vscode-yaml",
+    "yzhang.markdown-all-in-one",
+    "bierner.markdown-mermaid",
+    "usernamehw.errorlens",
+    "christian-kohler.path-intellisense",
+    "christian-kohler.npm-intellisense",
+    "abhijoybasak.nestjs-files",
+    "ashinzekene.nestjs",
+    "github.vscode-github-actions",
+    "docker.docker"
+  ],
+  "unwantedRecommendations": [
+    "formulahendry.code-runner",
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.csharp",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "nrwl.angular-console",
+    "ritwickdey.liveserver",
+    "technosophos.vscode-helm",
+    "supabase.vscode-supabase-extension"
+  ]
+}
